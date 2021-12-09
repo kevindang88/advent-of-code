@@ -1,31 +1,50 @@
 with open ('day_08/input_08.txt') as input:
-    count = 0
-    
-
+    result = 0
     for line in input:
-        patterns, values = [x.strip().split(' ') for x in line.split('|')]
+        patterns, values = [list(map(frozenset, x.strip().split(' '))) for x in line.split('|')]
 
-        # decode 1, 4, 7, 8
-        decoded_digits = [None] * 10
+        digits = {}
+        has_5_segments, has_6_segments = [], []
+
         for p in patterns:
             match len(p):
                 case 2:
-                    decoded_digits[1] = p
+                    digits[1] = p
                 case 3:
-                    decoded_digits[7] = p
+                    digits[7] = p
                 case 4:
-                    decoded_digits[4] = p
+                    digits[4] = p
+                case 5:
+                    has_5_segments.append(p)
+                case 6:
+                    has_6_segments.append(p)
                 case 7:
-                    decoded_digits[8] = p
+                    digits[8] = p
 
-        decoded_segments = {}
-        for char in decoded_digits[7]:
-            if char not in decoded_digits[1]:
-                decoded_segments['a'] = char
-                break
-        
-                
+        # deduce 6, 9, 0
+        for p in has_6_segments:
+            if not p.issuperset(digits[1]):
+                digits[6] = p
+            elif p.issuperset(digits[4]):
+                digits[9] = p
+            else:
+                digits[0] = p
 
+        # deduce 3, 5, 2
+        for p in has_5_segments:
+            if p.issuperset(digits[1]):
+                digits[3] = p
+            elif p.issubset(digits[9]):
+                digits[5] = p
+            else:
+                digits[2] = p
 
-    print(patterns)
-    print(decoded_digits)
+        decoded_value = ''
+        for v in values:
+            for i, k in enumerate(digits):
+                if v == digits[k]:
+                    decoded_value += str(k)
+
+        result += int(decoded_value)
+
+    print(result)
