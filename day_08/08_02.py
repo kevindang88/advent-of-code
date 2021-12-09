@@ -48,3 +48,4 @@ with open ('day_08/input_08.txt') as input:
         result += int(decoded_value)
 
     print(result)
+    
