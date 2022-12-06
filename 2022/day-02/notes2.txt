@@ -1,0 +1,72 @@
+A - rock        1 
+B - paper       2
+C - scissors    3
+
+A < B < C < A
+
+X - lose        0
+Y - draw        3
+Z - win         6
+
+A X     lose    C   0 + 3
+A Y     draw    A   3 + 1
+A Z     win     B   6 + 2
+
+
+lose to:
+A (1)       C (3)       3 - 1 =  2      even    pos     lose
+B (2)       A (1)       1 - 2 = -1      odd     neg     lose
+C (3)       B (2)       2 - 3 = -1      odd     neg     lose
+
+win to:
+A (1)       B (2)       2 - 1 = 1       odd     pos     win
+B (2)       C (3)       3 - 2 = 1       odd     pos     win
+C (3)       A (1)       1 - 3 = -2      even    neg     win
+
+
+lose to C (3) -> pick B (2)
+3 - 1 = 2
+2 % 3 = 2
+
+lose to A (1) -> pick C (3)
+1 - 1 = 0
+0 % 3 = 
+
+lose to B (2) -> pick A (1)
+2 - 1 = 1
+1 % 3 = 1
+
+**************************
+
+lose to A (0) -> pick C (2)
+0 - 1 = -1
+-1 % 3 = 2
+
+lose to B (1) -> pick A (0)
+1 - 1 = 0
+0 % 3 = 0
+
+lose to C (2) -> pick B (1)
+2 - 1 = 1
+1 % 3 = 1
+
+score += (((opp_shape-1) - 1) % 3) + 1
+
+((opp - 2) % 3) + 1
+
+***********************************
+win against A (0) -> pick B (1)
+0 + 1 = 1
+1 % 3 = 1
+1 + 1 = 2
+
+win against B (1) -> pick C (2)
+1 + 1 = 2
+2 % 3 = 2
+
+win against C (2) -> pick A (1)
+2 + 1 = 3
+3 % 3 = 0
+
+score += (((opp - 1) + 1) % 3) + 1
+opp % 3 + 1
