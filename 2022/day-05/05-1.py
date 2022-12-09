@@ -17,7 +17,6 @@ with open('input.txt') as input:
                 target_stack = math.ceil(i / 4) - 1
                 stacks[target_stack].insert(0, line[i]) # insert in front
 
-
     # consume empty line
     input.readline()
 
