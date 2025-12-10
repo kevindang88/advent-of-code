@@ -1,0 +1,42 @@
+import unittest
+from day_02_part_1 import *
+
+
+class TestDayTwo(unittest.TestCase):
+
+    def test_parse_input(self):
+        input = "11-22,95-115,998-1012,1188511880-1188511890\n"
+        expected = ["11-22", "95-115", "998-1012", "1188511880-1188511890"]
+        id_ranges = parse_input(input)
+        self.assertEqual(id_ranges, expected)
+
+    def test_parse_range(self):
+        id_range = "95-115"
+        expected = (95, 115)
+        result = parse_range(id_range)
+        self.assertEqual(result, expected)
+
+    def test_is_invalid(self):
+        test_cases = [
+            (1, False),
+            (11, True),
+            (101, False),
+            (123123, True),
+            (1231234, False),
+            (38593859, True),
+        ]
+
+        for input_str, expected in test_cases:
+            with self.subTest(input=input_str):
+                self.assertEqual(is_invalid(input_str), expected)
+
+    def test_get_invalid_ids(self):
+        test_cases = [(11, 22, [11, 22]), (95, 115, [99]), (998, 1012, [1010])]
+
+        for start_id, end_id, expected in test_cases:
+            with self.subTest(start_id=start_id, end_id=end_id, expected=expected):
+                self.assertEqual(get_invalid_ids(start_id, end_id), expected)
+
+
+if __name__ == "__main__":
+    unittest.main()
